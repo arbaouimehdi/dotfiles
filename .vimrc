@@ -14,6 +14,12 @@
 
  " Highlight Search
  set hlsearch
+ 
+ " Tab key == 4 spaces and auto-indent
+ set smartindent
+ set tabstop=4
+ set shiftwidth=4
+ set expandtab
 
  set rtp+=~/.vim/bundle/vundle/
  call vundle#rc()
