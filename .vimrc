@@ -12,6 +12,9 @@
  inoremap <C-s> <esc>:w<cr>a
  nnoremap <C-s> :w<cr>a
 
+ " Highlight Search
+ set hlsearch
+
  set rtp+=~/.vim/bundle/vundle/
  call vundle#rc()
 
