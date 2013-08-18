@@ -8,6 +8,10 @@
  set nocompatible               " be iMproved
  filetype off                   " required!
 
+ " Ctrl - save
+ inoremap <C-s> <esc>:w<cr>a
+ nnoremap <C-s> :w<cr>a
+
  set rtp+=~/.vim/bundle/vundle/
  call vundle#rc()
 
