@@ -2,31 +2,42 @@
  set number
 
  set clipboard=unnamed
-
  set backspace=2 " make backspace work like most other apps
 
  set nocompatible               " be iMproved
  filetype off                   " required!
 
  " Ctrl - save
- inoremap <C-s> <esc>:w<cr>a
- nnoremap <C-s> :w<cr>a
+ inoremap <C-s> <Esc>:w<CR>a
+ nnoremap <C-s> :w<CR>a
+
+ " Allow us to use Ctrl-s and Ctrl-q as keybinds
+ " silent !stty -ixon
+
+ " Restore default behaviour when leaving Vim.
+ " autocmd VimLeave * silent !stty ixon
+
 
  " Highlight Search
  set hlsearch
- 
+
  " Tab key == 4 spaces and auto-indent
  set smartindent
- set tabstop=4
- set shiftwidth=4
- set expandtab
-
+ set tabstop=2
+ set shiftwidth=2
  set rtp+=~/.vim/bundle/vundle/
+ "set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
+
+ " Code Folding Javascript syntax
+ " au FileType javascript call JavaScriptFold()
+
  call vundle#rc()
 
  " let Vundle manage Vundle
- " required! 
+ " required!
  Bundle 'gmarik/vundle'
+ Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+ Bundle 'vim-airline/vim-airline'
 
  " My Bundles here:
  "
@@ -42,8 +53,11 @@
  " non github repos
  Bundle 'git://git.wincent.com/command-t.git'
  " git repos on your local machine (ie. when working on your own plugin)
- Bundle 'file:///Users/gmarik/path/to/plugin'
+ " Bundle 'file:///Users/gmarik/path/to/plugin'
  Bundle 'https://github.com/scrooloose/nerdtree.git'
+ Bundle 'https://github.com/vim-scripts/Emmet.vim.git'
+ Bundle 'https://github.com/gregsexton/MatchTag.git'
+ Bundle 'https://github.com/jelera/vim-javascript-syntax.git'
  " ...
 
  filetype plugin indent on     " required!
@@ -56,7 +70,7 @@
  "
  " see :h vundle for more details or wiki for FAQ
  " NOTE: comments after Bundle command are not allowed..
- 
+
 " Copy And Paste
 if &term =~ "xterm.*"
     let &t_ti = &t_ti . "\e[?2004h"
@@ -72,3 +86,17 @@ if &term =~ "xterm.*"
     cmap <Esc>[201~ <nop>
 endif
 
+let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = '|'
+" Tab next
+nnoremap <C-a> :tabnext<CR>
+nnoremap <C-b> :tabprevious<CR>
+
+set encoding=utf-8
+"let g:NERDTreeDirArrows=0
+let g:Powerline_symbols = 'fancy'
+" Powerline Global, not only when nerdtree is open
+set laststatus=2
+nnoremap <C-e> :NERDTreeToggle<CR>
+nnoremap <C-z> :NERDTreeCWD<CR>
