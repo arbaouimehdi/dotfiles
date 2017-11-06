@@ -1,4 +1,4 @@
-set nocompatible               " be iMproved
+set nocompatible
 
 " 1 tab to 2 space for ruby
 set tabstop=2
@@ -26,8 +26,6 @@ autocmd Filetype python setlocal tabstop=4 shiftwidth=4 softtabstop=4
 " vim 7.4 backspace fix
 set backspace=indent,eol,start
 set t_Co=256
-" colorscheme, read here: http://vim.wikia.com/wiki/Change_the_color_scheme
-"colorscheme molokai
 autocmd BufWritePre * :%s/\s\+$//e
 
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -127,9 +125,6 @@ Plugin 'Lokaltog/vim-powerline'
 " Syntastic
 Plugin 'vim-syntastic/syntastic'
 
-" Molokai theme
-Bundle 'tomasr/molokai'
-
 call vundle#end()
 
 " Syntastic
@@ -227,3 +222,10 @@ set foldcolumn=1
 " Use Ctrl + s to save file
 inoremap <C-s> <esc>:w<cr>a
 nnoremap <C-s> :w<cr>a
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Theme
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Monokai theme
+colorscheme monokai
