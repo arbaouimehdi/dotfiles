@@ -1,231 +1,102 @@
-set nocompatible
+ syntax enable
+ set number
 
-" 1 tab to 2 space for ruby
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set expandtab
+ set clipboard=unnamed
+ set backspace=2 " make backspace work like most other apps
 
-" number line show
-set nu
+ set nocompatible               " be iMproved
+ filetype off                   " required!
 
-set noswapfile
-"in order to switch between buffers with unsaved change
-set hidden
+ " Ctrl - save
+ inoremap <C-s> <Esc>:w<CR>a
+ nnoremap <C-s> :w<CR>a
 
-" hightlight column and line
-set cursorline
-"set cursorcolumn
-filetype plugin indent on
-syntax on
+ " Allow us to use Ctrl-s and Ctrl-q as keybinds
+ silent !stty -ixon
 
-" support css word with -
-autocmd FileType css,scss,slim,html,eruby,coffee,javascript setlocal iskeyword+=-
-autocmd Filetype python setlocal tabstop=4 shiftwidth=4 softtabstop=4
+ " Restore default behaviour when leaving Vim.
+ " autocmd VimLeave * silent !stty ixon
 
-" vim 7.4 backspace fix
-set backspace=indent,eol,start
-set t_Co=256
-autocmd BufWritePre * :%s/\s\+$//e
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+ " Highlight Search
+ set hlsearch
 
-Plugin 'gmarik/Vundle.vim'
-Plugin 'tpope/vim-sensible'
+ " Tab key == 4 spaces and auto-indent
+ set smartindent
+ set tabstop=2
+ set shiftwidth=2
+ set rtp+=~/.vim/bundle/vundle/
+ "set rtp+=/usr/local/lib/python2.7/site-packages/powerline/bindings/vim
 
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-dispatch'
+ " Code Folding Javascript syntax
+ " au FileType javascript call JavaScriptFold()
 
-if has("gui_running")
-  colorscheme desert
-  set bs=2
-  set ruler
-  set gfn=Monaco:h16
-  set shell=/bin/bash
+ call vundle#rc()
+
+ " let Vundle manage Vundle
+ " required!
+ Bundle 'gmarik/vundle'
+ Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+ Bundle 'vim-airline/vim-airline'
+
+ " My Bundles here:
+ "
+ " original repos on github
+ Bundle 'tpope/vim-fugitive'
+ Bundle 'Lokaltog/vim-easymotion'
+ Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+ Bundle 'tpope/vim-rails.git'
+ " vim-scripts repos
+ Bundle 'L9'
+ Bundle 'FuzzyFinder'
+ Bundle 'flazz/vim-colorschemes'
+ " non github repos
+ Bundle 'git://git.wincent.com/command-t.git'
+ " git repos on your local machine (ie. when working on your own plugin)
+ " Bundle 'file:///Users/gmarik/path/to/plugin'
+ Bundle 'https://github.com/scrooloose/nerdtree.git'
+ Bundle 'https://github.com/vim-scripts/Emmet.vim.git'
+ Bundle 'https://github.com/gregsexton/MatchTag.git'
+ Bundle 'https://github.com/jelera/vim-javascript-syntax.git'
+ " ...
+
+ filetype plugin indent on     " required!
+ "
+ " Brief help
+ " :BundleList          - list configured bundles
+ " :BundleInstall(!)    - install(update) bundles
+ " :BundleSearch(!) foo - search(or refresh cache first) for foo
+ " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+ "
+ " see :h vundle for more details or wiki for FAQ
+ " NOTE: comments after Bundle command are not allowed..
+
+" Copy And Paste
+if &term =~ "xterm.*"
+    let &t_ti = &t_ti . "\e[?2004h"
+    let &t_te = "\e[?2004l" . &t_te
+    function XTermPasteBegin(ret)
+        set pastetoggle=<Esc>[201~
+        set paste
+        return a:ret
+    endfunction
+    map <expr> <Esc>[200~ XTermPasteBegin("i")
+    imap <expr> <Esc>[200~ XTermPasteBegin("")
+    cmap <Esc>[200~ <nop>
+    cmap <Esc>[201~ <nop>
 endif
 
-let mapleader= ","
-" EasyMotion_leader_key .
-" Plugin Plugin here for Ruby on Rails
-" git
-Plugin 'tpope/vim-fugitive'
+let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#tabline#left_sep = ' '
+"let g:airline#extensions#tabline#left_alt_sep = '|'
+" Tab next
+nnoremap <C-a> :tabnext<CR>
+nnoremap <C-b> :tabprevious<CR>
 
-" ruby command for rvm
-Plugin 'tpope/vim-rvm'
-
-" quickly move cursor, try ,,w
-Plugin 'Lokaltog/vim-easymotion'
-
-" quickly write HTML, just like zencoding but simple engough
-"Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-
-"let g:sparkupNextMapping= "<c-m>"
-Plugin 'mattn/emmet-vim'
-
-let g:user_emmet_install_global = 0
-let g:user_emmet_mode='iv'
-autocmd FileType html,css,eruby EmmetInstall
-
-" power vim plugin for rails
-Plugin 'tpope/vim-rails.git'
-
-" vim rails syntax complete, try ctrl+x ctrl+u
-set completefunc=syntaxcomplete#Complete
-
-" quickly comment your code, try ,cc on selected line
-Plugin 'vim-scripts/The-NERD-Commenter'
-
-" indent guides
-let g:indent_guides_guide_size = 1
-Plugin 'nathanaelkane/vim-indent-guides'
-
-" indent guides shortcut
-map <silent><F7>  <leader>ig
-
-" markdown support
-let g:indent_guides_guide_size = 1
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-
-" file tree like something called IDE
-Plugin 'scrooloose/nerdtree'
+set encoding=utf-8
+"let g:NERDTreeDirArrows=0
+let g:Powerline_symbols = 'fancy'
+" Powerline Global, not only when nerdtree is open
+set laststatus=2
 nnoremap <C-e> :NERDTreeToggle<CR>
 nnoremap <C-z> :NERDTreeCWD<CR>
-
-" basic dependence
-Plugin 'L9'
-
-" slim template support
-Plugin 'slim-template/vim-slim.git'
-
-" hack filetype for slim
-autocmd BufNewFile,BufRead *.slim set filetype=slim
-autocmd BufNewFile,BufRead *.es6 set filetype=javascript
-
-" quickly search file(s), use ctrl+p, F5 refresh
-Plugin 'kien/ctrlp.vim'
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-
-"let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-let g:ctrlp_custom_ignore = '\v[\/]\.(DS_Store|git|hg|svn)|(optimized|compiled|node_modules|bower_compenents)$'
-map <c-o> :CtrlPBuffer<CR>
-
-" sass highlight
-Plugin 'JulesWang/css.vim'
-Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'isRuslan/vim-es6'
-
-" Powerline
-Plugin 'Lokaltog/vim-powerline'
-
-" Syntastic
-Plugin 'vim-syntastic/syntastic'
-
-call vundle#end()
-
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Set 7 lines to the cursor - when moving vertically using j/k
-set so=7
-
-" Avoid garbled characters in Chinese language windows OS
-let $LANG='en'
-set langmenu=en
-source $VIMRUNTIME/delmenu.vim
-source $VIMRUNTIME/menu.vim
-
-" Turn on the WiLd menu
-set wildmenu
-
-" Ignore compiled files
-"set wildignore=*.o,*~,*.pyc
-"if has("win16") || has("win32")
-"    set wildignore+=.git\*,.hg\*,.svn\*
-"else
-"    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-"endif
-
-"Always show current position
-set ruler
-
-" Height of the command bar
-set cmdheight=2
-
-" A buffer becomes hidden when it is abandoned
-set hid
-
-" Configure backspace so it acts as it should act
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
-
-" Ignore case when searching
-set ignorecase
-
-" When searching try to be smart about cases
-set smartcase
-
-" Highlight search results
-set hlsearch
-
-" Makes search act like search in modern browsers
-set incsearch
-
-" Don't redraw while executing macros (good performance config)
-set lazyredraw
-
-" For regular expressions turn magic on
-set magic
-
-" Show matching brackets when text indicator is over them
-set showmatch
-" How many tenths of a second to blink when matching brackets
-set mat=2
-
-" No annoying sound on errors
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
-
-" Properly disable sound on errors on MacVim
-if has("gui_macvim")
-    autocmd GUIEnter * set vb t_vb=
-endif
-
-
-" Add a bit extra margin to the left
-set foldcolumn=1
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Key Maps
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Key Maps
-" Use Ctrl + s to save file
-inoremap <C-s> <esc>:w<cr>a
-nnoremap <C-s> :w<cr>a
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Theme
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Monokai theme
-colorscheme monokai
