@@ -7,12 +7,25 @@
  set nocompatible               " be iMproved
  filetype off                   " required!
 
+ "
+ "
+ " Mapping keys
+ "
+ "
  " Ctrl - save
  inoremap <C-s> <Esc>:w<CR>a
  nnoremap <C-s> :w<CR>a
+	
+ " NERDTree
+ nnoremap <C-e> :NERDTreeToggle<CR>
+ nnoremap <C-z> :NERDTreeCWD<CR>
+ 
+ " Tab navigation like Firefox.
+ nnoremap <C-a> :bprevious<CR>
+ nnoremap <C-b>   :bnext<CR>
 
  " Allow us to use Ctrl-s and Ctrl-q as keybinds
- silent !stty -ixon
+ " silent !stty -ixon
 
  " Restore default behaviour when leaving Vim.
  " autocmd VimLeave * silent !stty ixon
@@ -21,7 +34,7 @@
  " Highlight Search
  set hlsearch
 
- " Tab key == 4 spaces and auto-indent
+ " Tab key == 2 spaces and auto-indent
  set smartindent
  set tabstop=2
  set shiftwidth=2
@@ -87,16 +100,12 @@ if &term =~ "xterm.*"
 endif
 
 let g:airline#extensions#tabline#enabled = 1
-"let g:airline#extensions#tabline#left_sep = ' '
-"let g:airline#extensions#tabline#left_alt_sep = '|'
-" Tab next
-nnoremap <C-a> :tabnext<CR>
-nnoremap <C-b> :tabprevious<CR>
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 
 set encoding=utf-8
 "let g:NERDTreeDirArrows=0
 let g:Powerline_symbols = 'fancy'
 " Powerline Global, not only when nerdtree is open
 set laststatus=2
-nnoremap <C-e> :NERDTreeToggle<CR>
-nnoremap <C-z> :NERDTreeCWD<CR>
+
